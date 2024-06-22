@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Вариант №34</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+      // Вариант 1: Внедрение в тег <head>
+      var x;
+
+      function showDateHead() {
+        var today = new Date();
+        var day = today.getDate();
+        var month = today.getMonth() + 1; 
+        var year = today.getFullYear();
+        document.getElementById("dateHead").innerHTML = day + "." + month;
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Задание 1</h1>
+    <button onclick="showDateHead()">Показать год (Вариант 1)</button>
+    <p id="dateHead"></p>
+
+    <h1>Задание 2</h1>
+    <p id="output2"></p>
+    <script>
+      // Вариант 2: Внедрение в компоненте
+      function showNameComponent() {
+        var name = "Шимчук Никита Константинович"; 
+        var count = 23;
+        var i = 0;
+        do {
+          document.getElementById("output2").innerHTML += name + "<br>";
+          i++;
+        } while (i < count);
+      }
+    </script>
+    <button onclick="showNameComponent()">Показать имя (Вариант 2)</button>
+
+    <h1>Задание 3</h1>
+    <button onclick="arrayOperations()">Выполнить операции с массивом (Вариант 3)</button>
+    <p id="output3"></p>
+    <h1>Задание 4</h1>
+    <input type="number" id="x" placeholder="Введите x">
+    <button onclick="calculateY()">Рассчитать y (Вариант 3)</button>
+    <p id="output4"></p>
+
+    <h1>Задание 5</h1>
+    <p id="output5"></p>
+    <script>
+      // Вариант 4: Внедрение через URL-схему
+      var script = document.createElement('script');
+      script.innerHTML = `
+        (function(){
+          var str1 = "Я люблю Беларусь";
+          var str2 = "Я учусь в Политехническом колледже";
+          var length = str1.length;
+          document.getElementById("output5").innerHTML = "Длина строки S1: " + length + "<br>" + "Строка S2 без подстроки 'учусь': " + str2.replace("учусь", "") + "<br>" + "Строка S1 с заменой 'ю' на '*': " + str1.replace(/ю/g, "*");
+        })();
+      `;
+      document.body.appendChild(script);
+    </script>
+    <a href="javascript:(function(){alert('Привет, мир!');})();">Кликните, чтобы выполнить скрипт</a>
+    <script src="maint.js"></script>
+    <script src="https://example.com/external.js"></script>
+  </body>
+</html>
