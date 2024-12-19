@@ -1,0 +1,199 @@
+
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Форма сохранения данных</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 10px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        input, textarea {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .buttons-container button {
+            width: 48%;
+        }
+
+        .data-output {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Форма ввода данных</h1>
+
+    <form id="dataForm">
+        <label for="fullName">ФИО:</label>
+        <input type="text" id="fullName" required>
+
+        <label for="email">Электронная почта:</label>
+        <input type="email" id="email" required>
+
+        <label for="dob">Дата рождения:</label>
+        <input type="date" id="dob" required>
+
+        <label for="placeOfBirth">Место рождения:</label>
+        <input type="text" id="placeOfBirth" required>
+
+        <label for="hobbies">Увлечения:</label>
+        <textarea id="hobbies" rows="4"></textarea>
+
+        <button type="button" onclick="saveDataToCookies()">Сохранить в Cookies</button>
+        <button type="button" onclick="saveDataToLocalStorage()">Сохранить в LocalStorage</button>
+    </form>
+
+    <div class="buttons-container">
+        <button onclick="loadDataFromCookies()">Загрузить из Cookies</button>
+        <button onclick="loadDataFromLocalStorage()">Загрузить из LocalStorage</button>
+    </div>
+
+    <div class="buttons-container">
+        <button onclick="clearCookies()">Очистить Cookies</button>
+        <button onclick="clearLocalStorage()">Очистить LocalStorage</button>
+    </div>
+
+    <div id="dataOutput" class="data-output">
+        <p><strong>Сохранённые данные:</strong></p>
+        <pre id="savedData"></pre>
+    </div>
+
+    <script>
+        // Функция для сохранения данных в Cookies
+        function saveDataToCookies() {
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const dob = document.getElementById('dob').value;
+            const placeOfBirth = document.getElementById('placeOfBirth').value;
+            const hobbies = document.getElementById('hobbies').value;
+
+            // Создание cookies с временем жизни 1 час (3600 секунд)
+            setCookie('fullName', fullName, 1);
+            setCookie('email', email, 1);
+            setCookie('dob', dob, 1);
+            setCookie('placeOfBirth', placeOfBirth, 1);
+            setCookie('hobbies', hobbies, 1);
+
+            alert('Данные сохранены в Cookies!');
+        }
+
+        // Утилита для записи cookie с заданным временем жизни (в днях)
+        function setCookie(name, value, days) {
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const dob = document.getElementById('dob').value;
+            const placeOfBirth = document.getElementById('placeOfBirth').value;
+            const hobbies = document.getElementById('hobbies').value;
+            setCookie.setItem('fullName', fullName);
+            setCookie.setItem('email', email);
+            setCookie.setItem('dob', dob);
+            setCookie.setItem('placeOfBirth', placeOfBirth);
+            setCookie.setItem('hobbies', hobbies);
+        }
+
+        // Функция для загрузки данных из Cookies
+        function loadDataFromCookies() {
+            const data = {
+                fullName: setCookie.getItem('fullName'),
+                email: cookie.getItem('email'),
+                dob: cookie.getItem('dob'),
+                placeOfBirth: cookie.getItem('placeOfBirth'),
+                hobbies: cookie.getItem('hobbies')
+            };
+
+            document.getElementById('savedData').textContent = JSON.stringify(data, null, 2);
+        }
+
+        // Функция для сохранения данных в LocalStorage
+        function saveDataToLocalStorage() {
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const dob = document.getElementById('dob').value;
+            const placeOfBirth = document.getElementById('placeOfBirth').value;
+            const hobbies = document.getElementById('hobbies').value;
+
+            localStorage.setItem('fullName', fullName);
+            localStorage.setItem('email', email);
+            localStorage.setItem('dob', dob);
+            localStorage.setItem('placeOfBirth', placeOfBirth);
+            localStorage.setItem('hobbies', hobbies);
+
+            alert('Данные сохранены в LocalStorage!');
+        }
+
+        // Функция для загрузки данных из LocalStorage
+        function loadDataFromLocalStorage() {
+            const data = {
+                fullName: localStorage.getItem('fullName'),
+                email: localStorage.getItem('email'),
+                dob: localStorage.getItem('dob'),
+                placeOfBirth: localStorage.getItem('placeOfBirth'),
+                hobbies: localStorage.getItem('hobbies')
+            };
+
+            document.getElementById('savedData').textContent = JSON.stringify(data, null, 2);
+        }
+
+        // Функция для очистки данных из Cookies
+        function clearCookies() {
+            const cookies = document.cookie.split('; ');
+            cookies.forEach(cookie => {
+                const [key] = cookie.split('=');
+                document.cookie = `${key}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`; // Удаление cookie
+            });
+            alert('Cookies очищены!');
+        }
+
+        // Функция для очистки данных из LocalStorage
+        function clearLocalStorage() {
+            localStorage.clear(); // Удаление всех данных из LocalStorage
+            alert('LocalStorage очищен!');
+        }
+    </script>
+</body>
+</html>

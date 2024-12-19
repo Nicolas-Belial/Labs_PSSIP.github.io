@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Handling and Validation</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        form { margin-bottom: 30px; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+
+    <h1>Form Handling and Validation</h1>
+
+    <!-- Задание 1: HTML-форма -->
+    <form id="userForm">
+        <label>
+            Имя: <input type="text" id="username" name="username">
+        </label>
+        <br>
+        <label>
+            Возраст: <input type="number" id="age" name="age">
+        </label>
+        <br>
+        <label>
+            <input type="checkbox" id="agree" name="agree"> Согласен с условиями
+        </label>
+        <br>
+        <label>
+            Пол:
+            <input type="radio" name="gender" value="male"> Мужской
+            <input type="radio" name="gender" value="female"> Женский
+        </label>
+        <br>
+        <label>
+            Выбор страны:
+            <select id="country" name="country">
+                <option value="">Выберите страну</option>
+                <option value="Russia">Россия</option>
+                <option value="USA">США</option>
+                <option value="China">Китай</option>
+            </select>
+        </label>
+        <br>
+        <button type="button" id="submitButton">Отправить</button>
+    </form>
+
+    <div id="output"></div>
+
+    <script src="18.js"></script>
+
+</body>
+</html>

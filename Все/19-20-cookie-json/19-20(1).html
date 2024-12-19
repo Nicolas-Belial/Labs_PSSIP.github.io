@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Создать новый аккаунт</title>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+        .form-container {
+            width: 600px;
+            margin: 0 auto;
+            padding: 60px;
+            border: 1px solid #ccc;
+        }
+        .form-container label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-container input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        .form-container button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 40px;
+            border: none;
+            cursor: pointer;
+            float: right;
+            border-radius: 50px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Создать новый аккаунт</h1>
+        <form id="account-form">
+            <label for="name">Имя</label>
+            <input type="text" id="name" name="name" required pattern="[A-Za-zА-Яа-яЁё\s]+" title="Имя должно содержать только буквы.">
+
+            <label for="email">Электронный адрес</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Пароль</label>
+            <input type="password" id="password" name="password" required pattern=".{6,}" title="Пароль должен содержать не менее 6 символов.">
+
+            <label for="confirm-password">Подтвердить пароль</label>
+            <input type="password" id="confirm-password" name="confirm-password" required>
+
+            <button type="submit">Вход</button>
+        </form>
+        <div id="result"></div>
+    </div>
+    <script>
+        const form = document.getElementById('account-form');
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            // Задание 1: Получение данных формы
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
+            // Проверка на пустые поля
+            if (!name || !email || !password || !confirmPassword) {
+                alert('Все поля должны быть заполнены!');
+                return;
+            }
+
+            // Проверка паролей
+            if (password !== confirmPassword) {
+                alert('Пароли не совпадают!');
+                return;
+            }
+
+            // Задание 2: Вывод данных на экран
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <p>Имя: ${name}</p>
+                <p>Электронный адрес: ${email}</p>
+                <p>Пароль: ${password}</p>
+            `;
+
+            // Сохранение данных в cookie
+            document.cookie = `name=${name}; path=/`;
+            document.cookie = `email=${email}; path=/`;
+            document.cookie = `password=${password}; path=/`;
+
+            // Вывод данных из cookie
+            const cookies = document.cookie.split('; ');
+            let cookieData = '';
+            cookies.forEach(cookie => {
+                cookieData += `<p>${cookie}</p>`;
+            });
+            resultDiv.innerHTML += cookieData;
+
+            // Очистка cookie
+            cookies.forEach(cookie => {
+                document.cookie = `${cookie.split('=')[0]}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+            });
+
+            // Задание 3: Создание JSON-файла и запись данных
+            const formData = {
+                name: name,
+                email: email,
+                password: password
+            };
+            const jsonData = JSON.stringify(formData);
+            const blob = new Blob([jsonData], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'formData.json';
+            a.click();
+            URL.revokeObjectURL(url);
+
+            alert('Аккаунт успешно создан!');
+        });
+    </script>
+</body>
+</html>
